@@ -1,5 +1,7 @@
 package com.doctorandonuts.sockettest;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,12 +12,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.xml.sax.InputSource;
+
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity {
-
-    CertDetails certDetails = new CertDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Attempting to sync...", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
 
-                try {
-                    SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-                    SSLSocket sslsocket = (SSLSocket) sslsocketfactory.createSocket(certDetails.server, certDetails.port);
-                }
-                catch (Exception e) {
-                    Log.e("MainActivity", e.toString());
-                }
+                TaskWarriorSync taskWarriorSync = new TaskWarriorSync();
+                taskWarriorSync.execute();
             }
         });
     }
